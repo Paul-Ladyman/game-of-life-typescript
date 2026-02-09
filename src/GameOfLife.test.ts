@@ -24,4 +24,38 @@ describe('GameOfLife', () => {
       expect(gameOfLife.get(1, 1) instanceof DeadCell).toBe(true)
     });
   })
+
+  describe('nextGeneration', () => {
+    it('applies the game of life rules to a seed', () => {
+      const gameOfLife = new GameOfLife(5, 5);
+
+      const glider: [number, number][] = [
+        [2, 1],
+        [3, 2],
+        [1, 3],
+        [2, 3],
+        [3, 3],
+      ]
+      gameOfLife.seed(glider)
+
+      const nextGenGlider: [number, number][] = [
+        [1, 2],
+        [3, 2],
+        [2, 3],
+        [3, 3],
+        [2, 4],
+      ]
+
+      for (let x = 0; x < 5; x++) {
+        for (let y = 0; y < 5; y++) {
+          const nextGenCell = nextGenGlider.find(([gliderX, gliderY]) => gliderX === x && gliderY === y)
+          console.log('>>>', x, y);
+          if (nextGenCell)
+            expect(gameOfLife.get(x, y) instanceof LiveCell).toBe(true)
+          else
+            expect(gameOfLife.get(x, y) instanceof DeadCell).toBe(true)
+        }
+      }
+    });
+  });
 });

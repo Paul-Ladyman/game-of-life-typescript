@@ -37,6 +37,7 @@ describe('GameOfLife', () => {
         [3, 3],
       ]
       gameOfLife.seed(glider)
+      gameOfLife.nextGeneration()
 
       const nextGenGlider: [number, number][] = [
         [1, 2],
@@ -49,7 +50,6 @@ describe('GameOfLife', () => {
       for (let x = 0; x < 5; x++) {
         for (let y = 0; y < 5; y++) {
           const nextGenCell = nextGenGlider.find(([gliderX, gliderY]) => gliderX === x && gliderY === y)
-          console.log('>>>', x, y);
           if (nextGenCell)
             expect(gameOfLife.get(x, y) instanceof LiveCell).toBe(true)
           else

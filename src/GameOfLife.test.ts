@@ -13,22 +13,32 @@ describe('GameOfLife', () => {
 
   describe('seed', () => {
     it('allows a number of dead cells to be turned into live cells', () => {
+      // - 1
+      // - 1
+
+      // - -
+      // 1 1
       const gameOfLife = new GameOfLife(2, 2);
       gameOfLife.seed([
         [1, 0],
-        [0, 1]
+        [1, 1]
       ])
       expect(gameOfLife.get(0, 0) instanceof DeadCell).toBe(true)
-      expect(gameOfLife.get(0, 1) instanceof LiveCell).toBe(true)
+      expect(gameOfLife.get(0, 1) instanceof DeadCell).toBe(true)
       expect(gameOfLife.get(1, 0) instanceof LiveCell).toBe(true)
-      expect(gameOfLife.get(1, 1) instanceof DeadCell).toBe(true)
+      expect(gameOfLife.get(1, 1) instanceof LiveCell).toBe(true)
     });
   })
 
   describe('nextGeneration', () => {
-    it('applies the game of life rules to a seed', () => {
+    it('generates the second generation of a glider seed', () => {
       const gameOfLife = new GameOfLife(5, 5);
 
+      // - - - - -
+      // - - 0 - -
+      // - - - 0 -
+      // - 0 0 0 -
+      // - - - - -
       const glider: [number, number][] = [
         [2, 1],
         [3, 2],
@@ -39,12 +49,59 @@ describe('GameOfLife', () => {
       gameOfLife.seed(glider)
       gameOfLife.nextGeneration()
 
+      // - - - - -
+      // - - - - -
+      // - 0 - 0 -
+      // - - 0 0 -
+      // - - 0 - -
       const nextGenGlider: [number, number][] = [
         [1, 2],
         [3, 2],
         [2, 3],
         [3, 3],
         [2, 4],
+      ]
+
+      for (let x = 0; x < 5; x++) {
+        for (let y = 0; y < 5; y++) {
+          const nextGenCell = nextGenGlider.find(([gliderX, gliderY]) => gliderX === x && gliderY === y)
+          if (nextGenCell)
+            expect(gameOfLife.get(x, y) instanceof LiveCell).toBe(true)
+          else
+            expect(gameOfLife.get(x, y) instanceof DeadCell).toBe(true)
+        }
+      }
+    });
+
+    it('generates the third generation of a glider seed', () => {
+      const gameOfLife = new GameOfLife(5, 5);
+
+      // - - - - -
+      // - - - - -
+      // - 0 - 0 -
+      // - - 0 0 -
+      // - - 0 - -
+      const glider: [number, number][] = [
+        [1, 2],
+        [3, 2],
+        [2, 3],
+        [3, 3],
+        [2, 4],
+      ]
+      gameOfLife.seed(glider)
+      gameOfLife.nextGeneration()
+
+      // - - - - -
+      // - - - - -
+      // - - - 0 -
+      // - 0 - 0 -
+      // - - 0 0 -
+      const nextGenGlider: [number, number][] = [
+        [3, 2],
+        [1, 3],
+        [3, 3],
+        [2, 4],
+        [3, 4],
       ]
 
       for (let x = 0; x < 5; x++) {

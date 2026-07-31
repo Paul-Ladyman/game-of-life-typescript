@@ -1,7 +1,9 @@
 import Cell from "./Cell";
+import LiveCell from "./LiveCell";
 
 export default class DeadCell implements Cell {
   getNextGeneration(neighbours: number): Cell {
-    throw new Error("Method not implemented.");
+    if (neighbours === 3) return new LiveCell()
+    return this
   }
 }

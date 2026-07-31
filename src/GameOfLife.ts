@@ -5,34 +5,35 @@ import LiveCell from "./LiveCell";
 
 export default class GameOfLife {
   private game: Cell[][] = []
-  private nColumns: number
-  private nRows: number
-  constructor(nColumns: number, nRows: number) {
-    this.nColumns = nColumns
-    this.nRows = nRows
-    this.game = Array(nColumns).fill(Array(nRows).fill(new DeadCell()))
+  private xDimension: number
+  private yDimension: number
+
+  constructor(xDimension: number, yDimension: number) {
+    this.xDimension = xDimension
+    this.yDimension = yDimension
+    this.game = Array(yDimension).fill(Array(xDimension).fill(new DeadCell()))
   }
 
   seed(coordinates: [number, number][]) {
-    const newGame = this.game.map((row, x) =>
-      row.map((cell, y) => {
+    this.game = this.game.map((row, y) =>
+      row.map((cell, x) => {
         const seedCell = coordinates.find(([seedX, seedY]) => seedX === x && seedY === y)
         return seedCell ? new LiveCell() : cell
       })
     )
-    this.game = newGame
   }
 
   nextGeneration() {
-    this.game.map((row, x) => {
-      row.map((cell, y) => {
-        const neighbours = new Coordinates([x, y]).neighbours(this.nColumns, this.nRows)
-        console.log(neighbours.length)
+    this.game = this.game.map((row, y) =>
+      row.map((cell, x) => {
+        const neighbours = new Coordinates([x, y]).neighbours(this.xDimension, this.yDimension)
+        const liveNeighbours = neighbours.filter((neighbour) => this.get(neighbour.x, neighbour.y) instanceof LiveCell)
+        return cell.getNextGeneration(liveNeighbours.length)
       })
-    })
+    )
   }
 
-  get(column: number, row: number): Cell {
-    return this.game[column][row]
+  get(x: number, y: number): Cell {
+    return this.game[y][x]
   }
 }

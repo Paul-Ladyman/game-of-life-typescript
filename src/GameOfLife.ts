@@ -5,8 +5,8 @@ import LiveCell from "./LiveCell";
 
 export default class GameOfLife {
   private game: Cell[][] = []
-  private xDimension: number
-  private yDimension: number
+  xDimension: number
+  yDimension: number
 
   constructor(xDimension: number, yDimension: number) {
     this.xDimension = xDimension

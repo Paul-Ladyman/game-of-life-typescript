@@ -7,7 +7,7 @@ export default class Coordinates {
     this.y = coordinates[1]
   }
 
-  neighbours(nColumns: number, nRows: number): Coordinates[] {
+  neighbours(xDimension: number, yDimension: number): Coordinates[] {
     const translations = [
       [-1, -1],
       [-1, 0],
@@ -22,8 +22,8 @@ export default class Coordinates {
     return translations.flatMap((translation) => {
       const neighbourX = this.x + translation[0]
       const neighbourY = this.y + translation[1]
-      const xValid = neighbourX > -1 && neighbourX < nColumns
-      const yValid = neighbourY > -1 && neighbourY < nRows
+      const xValid = neighbourX > -1 && neighbourX < xDimension
+      const yValid = neighbourY > -1 && neighbourY < yDimension
       if (xValid && yValid)
         return [new Coordinates([neighbourX, neighbourY])]
       return []

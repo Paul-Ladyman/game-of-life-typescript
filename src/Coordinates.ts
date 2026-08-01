@@ -2,7 +2,7 @@ export default class Coordinates {
   x: number
   y: number
 
-  constructor(coordinates: number[]) {
+  constructor(coordinates: [number, number]) {
     this.x = coordinates[0]
     this.y = coordinates[1]
   }

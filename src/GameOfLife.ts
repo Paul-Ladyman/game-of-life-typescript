@@ -3,15 +3,18 @@ import Coordinates from "./Coordinates";
 import DeadCell from "./DeadCell";
 import LiveCell from "./LiveCell";
 
+type Dimensions = {
+  x: number,
+  y: number
+}
+
 export default class GameOfLife {
   private game: Cell[][] = []
-  xDimension: number
-  yDimension: number
+  dimensions: Dimensions
 
-  constructor(xDimension: number, yDimension: number) {
-    this.xDimension = xDimension
-    this.yDimension = yDimension
-    this.game = Array(yDimension).fill(Array(xDimension).fill(new DeadCell()))
+  constructor(dimensions: Dimensions) {
+    this.dimensions = dimensions
+    this.game = Array(dimensions.y).fill(Array(dimensions.x).fill(new DeadCell()))
   }
 
   seed(coordinates: [number, number][]) {
@@ -26,7 +29,7 @@ export default class GameOfLife {
   nextGeneration() {
     this.game = this.game.map((row, y) =>
       row.map((cell, x) => {
-        const neighbours = new Coordinates([x, y]).neighbours(this.xDimension, this.yDimension)
+        const neighbours = new Coordinates([x, y]).neighbours(this.dimensions.x, this.dimensions.y)
         const liveNeighbours = neighbours.filter((neighbour) => this.get(neighbour.x, neighbour.y) instanceof LiveCell)
         return cell.getNextGeneration(liveNeighbours.length)
       })

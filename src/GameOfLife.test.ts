@@ -4,7 +4,7 @@ import LiveCell from "./LiveCell";
 
 describe('GameOfLife', () => {
   it('initialises a game of dead cells of a particular number of rows and columns', () => {
-    const gameOfLife = new GameOfLife(2, 2);
+    const gameOfLife = new GameOfLife({x: 2, y: 2});
     expect(gameOfLife.get(0, 0) instanceof DeadCell).toBe(true)
     expect(gameOfLife.get(0, 1) instanceof DeadCell).toBe(true)
     expect(gameOfLife.get(1, 0) instanceof DeadCell).toBe(true)
@@ -18,7 +18,7 @@ describe('GameOfLife', () => {
 
       // - -
       // 1 1
-      const gameOfLife = new GameOfLife(2, 2);
+      const gameOfLife = new GameOfLife({x: 2, y: 2});
       gameOfLife.seed([
         [1, 0],
         [1, 1]
@@ -32,7 +32,7 @@ describe('GameOfLife', () => {
 
   describe('nextGeneration', () => {
     it('generates the second generation of a glider seed', () => {
-      const gameOfLife = new GameOfLife(5, 5);
+      const gameOfLife = new GameOfLife({x: 5, y: 5});
 
       // - - - - -
       // - - 0 - -
@@ -74,7 +74,7 @@ describe('GameOfLife', () => {
     });
 
     it('generates the third generation of a glider seed', () => {
-      const gameOfLife = new GameOfLife(5, 5);
+      const gameOfLife = new GameOfLife({x: 5, y: 5});
 
       // - - - - -
       // - - - - -
